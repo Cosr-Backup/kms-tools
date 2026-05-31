@@ -4,31 +4,31 @@ export default defineTask({
     description: 'Run KMS server monitoring.'
   },
   async run() {
-    const results = await Promise.all(
-      getMonitorList().map(async host => {
-        let monitorData = await storage.getItem<MonitorData[]>(`${host}.json`)
+    const results = []
 
-        if (!Array.isArray(monitorData)) {
-          monitorData = []
-        }
+    for (const host of getMonitorList()) {
+      let monitorData = await storage.getItem<MonitorData[]>(`${host}.json`)
 
-        if (monitorData.length >= 120) {
-          monitorData.shift()
-        }
+      if (!Array.isArray(monitorData)) {
+        monitorData = []
+      }
 
-        const { status, delay } = await runVlmcs({ host })
+      if (monitorData.length >= 120) {
+        monitorData.shift()
+      }
 
-        monitorData.push({
-          status,
-          time: Date.now(),
-          delay
-        })
+      const { status, delay } = await runVlmcs({ host })
 
-        await storage.setItem<MonitorData[]>(`${host}.json`, monitorData)
-
-        return { host, status }
+      monitorData.push({
+        status,
+        time: Date.now(),
+        delay
       })
-    )
+
+      await storage.setItem<MonitorData[]>(`${host}.json`, monitorData)
+
+      results.push({ host, status })
+    }
 
     const count = results.filter(item => {
       if (!item.status) {

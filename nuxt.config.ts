@@ -1,17 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
-const getMonitorCron = () => {
-  const raw = parseInt(
-    process.env.NUXT_MONITOR_INTERVAL || process.env.MONITOR_INTERVAL || '30',
-    60
-  )
-  const seconds = isNaN(raw) || raw <= 0 ? 10 : raw
-  if (seconds < 60) {
-    return `*/${seconds} * * * * *`
-  }
-  const minutes = Math.floor(seconds / 60)
-  return `0 */${minutes} * * * *`
-}
+const monitorCron = '* * * * *'
+const kvNamespaceId = process.env.CLOUDFLARE_KV_NAMESPACE_ID
+const kvPreviewId = process.env.CLOUDFLARE_KV_PREVIEW_ID
+const isCloudflarePreset = process.env.NITRO_PRESET?.startsWith('cloudflare')
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
@@ -24,7 +16,33 @@ export default defineNuxtConfig({
       tasks: true
     },
     scheduledTasks: {
-      [getMonitorCron()]: ['monitor']
+      [monitorCron]: ['monitor']
+    },
+    storage: isCloudflarePreset
+      ? {
+          data: {
+            driver: 'cloudflare-kv-binding',
+            binding: 'MONITOR_KV'
+          }
+        }
+      : undefined,
+    cloudflare: {
+      deployConfig: true,
+      nodeCompat: true,
+      wrangler: {
+        triggers: {
+          crons: [monitorCron]
+        },
+        kv_namespaces: kvNamespaceId
+          ? [
+              {
+                binding: 'MONITOR_KV',
+                id: kvNamespaceId,
+                ...(kvPreviewId ? { preview_id: kvPreviewId } : {})
+              }
+            ]
+          : undefined
+      }
     }
   },
   app: {
