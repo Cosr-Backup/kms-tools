@@ -39,6 +39,9 @@ export default defineNuxtConfig({
     cloudflare: {
       deployConfig: true,
       wrangler: {
+        triggers: {
+          crons: ['*/10 * * * *']
+        },
         observability: {
           logs: {
             enabled: true,
