@@ -82,13 +82,13 @@ export default defineNuxtConfig({
       Components({
         resolvers: [
           ArcoResolver({
-            importStyle: 'css'
+            sideEffect: false
           })
         ]
       })
     ],
     optimizeDeps: {
-      include: []
+      include: ['@arco-design/web-vue', '@arco-design/web-vue/es/icon']
     }
   },
   runtimeConfig: {
@@ -106,7 +106,7 @@ export default defineNuxtConfig({
       cors: true
     }
   },
-  css: ['~/assets/css/main.css'],
+  css: ['@arco-design/web-vue/dist/arco.css', '~/assets/css/main.css'],
   modules: [
     '@nuxt/icon',
     '@nuxtjs/i18n',
