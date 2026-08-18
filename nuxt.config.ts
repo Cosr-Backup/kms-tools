@@ -39,6 +39,10 @@ export default defineNuxtConfig({
     cloudflare: {
       deployConfig: true,
       wrangler: {
+        placement: {
+          // @ts-expect-error Nitro's bundled Wrangler types do not include Placement Hints yet.
+          region: 'aws:ap-east-1'
+        },
         triggers: {
           crons: ['*/10 * * * *']
         },
