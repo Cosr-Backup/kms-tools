@@ -79,7 +79,7 @@ function handleNavClick(name: string) {
       <AMenu
         :selected-keys="path"
         mode="horizontal"
-        class="hidden grow md:flex [&_.arco-menu-overflow-wrap]:text-end [&_.arco-menu-selected-label]:start-4"
+        class="hidden grow md:flex [&_.arco-menu-overflow-wrap]:text-end [&_.arco-menu-selected-label]:inset-s-4"
       >
         <AMenuItem
           v-for="item in navItems"

@@ -5,14 +5,18 @@ const { gvlksData, title, generateScript } = defineProps<{
   generateScript: (formData: ActivateFormData) => string
 }>()
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 
 const monitorData = useState<MonitorInfo[]>('monitorData')
 
-const rankVal = ref(1)
+const editionById = new Map(
+  gvlksData.flatMap(({ editions }) =>
+    editions.map(edition => [edition.id, edition] as const)
+  )
+)
 
 const formData = ref<ActivateFormData>({
-  edition: gvlksData[0]?.edition[0]?.[rankVal.value] || '',
+  edition: gvlksData[0]?.editions[0]?.id ?? '',
   arch: 'x64',
   host: monitorData.value?.[0]?.host || '',
   license: ''
@@ -20,32 +24,15 @@ const formData = ref<ActivateFormData>({
 
 watch(
   () => formData.value.edition,
-  () => {
-    for (const item of gvlksData) {
-      const result = item.edition.find(_ => {
-        return _[rankVal.value] === formData.value.edition
-      })
-      if (result) {
-        formData.value.license = result[0]!
-        break
-      }
-    }
+  editionId => {
+    formData.value.license = editionById.get(editionId)?.license ?? ''
   },
   { immediate: true }
 )
 
-watch(
-  () => locale.value,
-  val => {
-    if (val.startsWith('zh')) {
-      rankVal.value = 2
-    } else {
-      rankVal.value = 1
-    }
-    formData.value.edition = gvlksData[0]?.edition[0]?.[rankVal.value] ?? ''
-  },
-  { immediate: true }
-)
+function getEditionLabel(edition: GvlksEdition) {
+  return t(`gvlks.editions.${edition.id}`)
+}
 
 watch(monitorData, val => {
   formData.value.host = val?.[0]?.host || ''
@@ -78,11 +65,11 @@ const { copy, copied } = useClipboard({
           <ASelect v-model="formData.edition">
             <template v-for="item in gvlksData" :key="item.version">
               <AOptgroup :label="item.version">
-                <template
-                  v-for="edition in item.edition"
-                  :key="edition[rankVal]"
-                >
-                  <AOption :label="edition[rankVal]" />
+                <template v-for="edition in item.editions" :key="edition.id">
+                  <AOption
+                    :value="edition.id"
+                    :label="getEditionLabel(edition)"
+                  />
                 </template>
               </AOptgroup>
             </template>

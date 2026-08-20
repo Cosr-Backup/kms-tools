@@ -1,9 +1,11 @@
 <script setup>
 const route = useRoute()
 
-const { t } = useI18n()
+const { locale, t } = useI18n()
 
 const head = useLocaleHead()
+
+const arcoLocale = computed(() => resolveArcoLocale(locale.value))
 
 const title = computed(() => {
   return route.meta.title
@@ -44,7 +46,7 @@ useSeoMeta({
       </template>
     </Head>
     <Body>
-      <AConfigProvider :rtl="head.htmlAttrs.dir === 'rtl'">
+      <AConfigProvider :locale="arcoLocale" :rtl="head.htmlAttrs.dir === 'rtl'">
         <AppHeader />
         <section
           class="mx-auto flex w-6xl max-w-full flex-1 gap-4 px-3 md:px-0"

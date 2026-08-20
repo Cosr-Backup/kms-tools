@@ -1,6 +1,6 @@
-export interface EditionItem {
-  version: string
-  edition: string[][]
+export interface GvlksEdition {
+  id: string
+  license: string
 }
 
 export interface ActivateFormData {
@@ -12,5 +12,5 @@ export interface ActivateFormData {
 
 export interface GvlksData {
   version: string
-  edition: string[][]
+  editions: GvlksEdition[]
 }

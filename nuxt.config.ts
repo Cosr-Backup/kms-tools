@@ -133,85 +133,26 @@ export default defineNuxtConfig({
     defaultLocale: 'zh-cn',
     langDir: 'locales',
     strategy: 'prefix_and_default',
+    // prettier-ignore
     locales: [
-      {
-        code: 'zh-cn',
-        language: 'zh-CN',
-        file: 'zh-cn.json',
-        name: '简体中文',
-        icon: 'cn'
-      },
-      {
-        code: 'zh-tw',
-        language: 'zh-TW',
-        file: 'zh-tw.json',
-        name: '繁體中文',
-        icon: 'tw'
-      },
-      {
-        code: 'en',
-        language: 'en-US',
-        file: 'en.json',
-        name: 'English',
-        icon: 'us'
-      },
-      {
-        code: 'ja',
-        language: 'ja-JP',
-        file: 'ja.json',
-        name: '日本語',
-        icon: 'jp'
-      },
-      {
-        code: 'ko',
-        language: 'ko-KR',
-        file: 'ko.json',
-        name: '한국어',
-        icon: 'kr'
-      },
-      {
-        code: 'de',
-        language: 'de-DE',
-        file: 'de.json',
-        name: 'Deutsch',
-        icon: 'de'
-      },
-      {
-        code: 'es',
-        language: 'es-ES',
-        file: 'es.json',
-        name: 'Español',
-        icon: 'es'
-      },
-      {
-        code: 'fr',
-        language: 'fr-FR',
-        file: 'fr.json',
-        name: 'Français',
-        icon: 'fr'
-      },
-      {
-        code: 'ru',
-        language: 'ru-RU',
-        file: 'ru.json',
-        name: 'Русский',
-        icon: 'ru'
-      },
-      {
-        code: 'pt',
-        language: 'pt-PT',
-        file: 'pt.json',
-        name: 'Português',
-        icon: 'pt'
-      },
-      {
-        code: 'ar',
-        language: 'ar-SA',
-        file: 'ar.json',
-        name: 'العربية',
-        icon: 'sa',
-        dir: 'rtl'
-      }
+      { code: 'zh-cn', language: 'zh-CN', file: 'zh-cn.json', name: '简体中文', icon: 'cn' },
+      { code: 'zh-tw', language: 'zh-TW', file: 'zh-tw.json', name: '繁體中文', icon: 'tw' },
+      { code: 'en', language: 'en-US', file: 'en.json', name: 'English', icon: 'us' },
+      { code: 'fr', language: 'fr-FR', file: 'fr.json', name: 'Français', icon: 'fr' },
+      { code: 'ja', language: 'ja-JP', file: 'ja.json', name: '日本語', icon: 'jp' },
+      { code: 'pt', language: 'pt-PT', file: 'pt.json', name: 'Português', icon: 'pt' },
+      { code: 'ko', language: 'ko-KR', file: 'ko.json', name: '한국어', icon: 'kr' },
+      { code: 'it', language: 'it-IT', file: 'it.json', name: 'Italiano', icon: 'it' },
+      { code: 'es', language: 'es-ES', file: 'es.json', name: 'Español', icon: 'es' },
+      { code: 'nl', language: 'nl-NL', file: 'nl.json', name: 'Nederlands', icon: 'nl' },
+      { code: 'ru', language: 'ru-RU', file: 'ru.json', name: 'Русский', icon: 'ru' },
+      { code: 'id', language: 'id-ID', file: 'id.json', name: 'Bahasa Indonesia', icon: 'id' },
+      { code: 'de', language: 'de-DE', file: 'de.json', name: 'Deutsch', icon: 'de' },
+      { code: 'ms', language: 'ms-MY', file: 'ms.json', name: 'Bahasa Melayu', icon: 'my' },
+      { code: 'vi', language: 'vi-VN', file: 'vi.json', name: 'Tiếng Việt', icon: 'vn' },
+      { code: 'km', language: 'km-KH', file: 'km.json', name: 'ខ្មែរ', icon: 'kh' },
+      { code: 'ar', language: 'ar-EG', file: 'ar.json', name: 'العربية', icon: 'eg', dir: 'rtl' },
+      { code: 'th', language: 'th-TH', file: 'th.json', name: 'ไทย', icon: 'th' },
     ]
   },
   icon: {
