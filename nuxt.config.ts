@@ -17,6 +17,11 @@ const storage =
     : {}
 
 export default defineNuxtConfig({
+  $development: {
+    nitro: {
+      preset: 'cloudflare_module'
+    }
+  },
   compatibilityDate: '2026-05-31',
   devtools: { enabled: true },
   site: {

@@ -65,6 +65,8 @@ https://kms.ikxin.com
 | [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss)       | 实用性优先的 CSS 框架                |
 | [Arco Design Vue](https://github.com/arco-design/arco-design-vue) | 字节跳动开发的企业级产品设计系统     |
 | [ECharts](https://github.com/apache/echarts)                      | 功能丰富的交互式图表库               |
+| [Drizzle ORM](https://github.com/drizzle-team/drizzle-orm)        | 类型安全的数据库访问与迁移工具       |
+| [Cloudflare D1](https://developers.cloudflare.com/d1/)            | Cloudflare 原生 SQLite 数据库        |
 | [Nuxt I18n](https://github.com/nuxt-modules/i18n)                 | 适用于 Nuxt 的国际化支持插件         |
 
 ## 📦 部署
@@ -82,6 +84,31 @@ https://kms.ikxin.com
 > 生产环境（`node .output/server/index.mjs`）不会自动读取 `.env` 文件，环境变量需要在运行前通过系统环境或部署平台进行配置。`.env` 文件仅在开发和构建阶段有效。
 
 ### 全栈版本
+
+#### Cloudflare Workers 与 D1
+
+项目在 Cloudflare 运行时会优先使用 `DB` D1 绑定保存监控配置和记录。首次部署时，Wrangler 会根据项目配置自动创建并绑定数据库：
+
+```bash
+NITRO_PRESET=cloudflare_module pnpm run build
+pnpm exec wrangler deploy
+pnpm run db:migrate:remote
+```
+
+迁移会创建 `servers` 和 `monitor_records` 两张空表。修改 `server/database/schema.ts` 后，可以生成新的迁移：
+
+```bash
+pnpm run db:generate
+```
+
+本地开发默认使用 Cloudflare 预设和 Wrangler 提供的本地 D1。首次开发或新增迁移后，先应用尚未执行的迁移：
+
+```bash
+pnpm run db:migrate:local
+pnpm run dev
+```
+
+之后直接运行 `pnpm run dev` 即可。本地数据持久化在 `.wrangler/state`，无需登录 Cloudflare。Docker 和 Node.js 部署没有 D1 绑定时，会继续使用原有的 Nitro Storage 与 `NUXT_MONITOR_LIST` 配置。
 
 #### Docker（推荐）
 

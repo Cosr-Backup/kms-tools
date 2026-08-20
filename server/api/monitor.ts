@@ -1,24 +1,27 @@
-export default defineEventHandler(async () => {
-  const monitorStorage =
-    (await storage.getItem<MonitorStorage>('monitor.json')) || {}
+import { asc, eq, inArray } from 'drizzle-orm'
+import { monitorRecords, servers } from '../database/schema'
+import { getD1Database } from '../utils/database'
 
-  const results = getMonitorList().map(host => {
-    const data = Array.isArray(monitorStorage[host]) ? monitorStorage[host] : []
+interface MonitorEntry {
+  host: string
+  data: MonitorData[]
+}
 
+const summarizeMonitorEntries = (entries: MonitorEntry[]) => {
+  const results = entries.map(({ host, data }) => {
     const total = data.length
-
     const success = data.filter(({ status }) => status).length
-
     const fail = total - success
-
-    const delay = data.reduce((acc, { delay }) => acc + delay, 0) / total
+    const averageDelay = total
+      ? data.reduce((sum, item) => sum + item.delay, 0) / total
+      : 0
 
     return {
       host,
       total,
       success,
       fail,
-      delay: delay ? Number(delay.toFixed(2)) : 0,
+      delay: averageDelay ? Number(averageDelay.toFixed(2)) : 0,
       data
     }
   })
@@ -32,4 +35,73 @@ export default defineEventHandler(async () => {
   })
 
   return sortedData
+}
+
+const getD1MonitorEntries = async (
+  database: NonNullable<ReturnType<typeof getD1Database>>
+) => {
+  const monitoredServers = await database
+    .select({
+      id: servers.id,
+      host: servers.host,
+      port: servers.port
+    })
+    .from(servers)
+    .where(eq(servers.enabled, true))
+
+  const dataByServer = new Map<number, MonitorData[]>()
+
+  if (monitoredServers.length) {
+    const records = await database
+      .select({
+        serverId: monitorRecords.serverId,
+        status: monitorRecords.status,
+        delay: monitorRecords.delay,
+        checkedAt: monitorRecords.checkedAt
+      })
+      .from(monitorRecords)
+      .where(
+        inArray(
+          monitorRecords.serverId,
+          monitoredServers.map(server => server.id)
+        )
+      )
+      .orderBy(asc(monitorRecords.checkedAt), asc(monitorRecords.id))
+
+    for (const record of records) {
+      const data = dataByServer.get(record.serverId) || []
+
+      data.push({
+        status: record.status,
+        time: record.checkedAt.getTime(),
+        delay: record.delay
+      })
+
+      dataByServer.set(record.serverId, data)
+    }
+  }
+
+  return monitoredServers.map(server => ({
+    host: server.port === 1688 ? server.host : `${server.host}:${server.port}`,
+    data: dataByServer.get(server.id) || []
+  }))
+}
+
+const getStorageMonitorEntries = async () => {
+  const monitorStorage =
+    (await storage.getItem<MonitorStorage>('monitor.json')) || {}
+
+  return getMonitorList().map(host => ({
+    host,
+    data: Array.isArray(monitorStorage[host]) ? monitorStorage[host] : []
+  }))
+}
+
+export default defineEventHandler(async event => {
+  const database = getD1Database(event.context)
+  const entries = database
+    ? await getD1MonitorEntries(database)
+    : await getStorageMonitorEntries()
+
+  return summarizeMonitorEntries(entries)
 })

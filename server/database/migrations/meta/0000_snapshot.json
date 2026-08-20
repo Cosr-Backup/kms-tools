@@ -1,0 +1,152 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "f22ec0f8-de78-4d20-bfa9-02d5db4c9dee",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "monitor_records": {
+      "name": "monitor_records",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "server_id": {
+          "name": "server_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "delay": {
+          "name": "delay",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "checked_at": {
+          "name": "checked_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch() * 1000)"
+        }
+      },
+      "indexes": {
+        "monitor_records_server_checked_at_idx": {
+          "name": "monitor_records_server_checked_at_idx",
+          "columns": ["server_id", "checked_at"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "monitor_records_server_id_servers_id_fk": {
+          "name": "monitor_records_server_id_servers_id_fk",
+          "tableFrom": "monitor_records",
+          "tableTo": "servers",
+          "columnsFrom": ["server_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "monitor_records_delay_check": {
+          "name": "monitor_records_delay_check",
+          "value": "\"monitor_records\".\"delay\" >= -1"
+        }
+      }
+    },
+    "servers": {
+      "name": "servers",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "host": {
+          "name": "host",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "port": {
+          "name": "port",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1688
+        },
+        "enabled": {
+          "name": "enabled",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch() * 1000)"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch() * 1000)"
+        }
+      },
+      "indexes": {
+        "servers_host_port_unique": {
+          "name": "servers_host_port_unique",
+          "columns": ["host", "port"],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "servers_port_check": {
+          "name": "servers_port_check",
+          "value": "\"servers\".\"port\" between 1 and 65535"
+        }
+      }
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}
