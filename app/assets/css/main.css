@@ -1,4 +1,7 @@
+@layer theme, base, arco, components, utilities;
+
 @import 'tailwindcss';
+@import '@arco-design/web-vue/dist/arco.css' layer(arco);
 
 body {
   background-color: var(--color-neutral-2);

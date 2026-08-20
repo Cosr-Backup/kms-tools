@@ -115,7 +115,7 @@ export default defineNuxtConfig({
       cors: true
     }
   },
-  css: ['@arco-design/web-vue/dist/arco.css', '~/assets/css/main.css'],
+  css: ['~/assets/css/main.css'],
   modules: [
     '@nuxt/icon',
     '@nuxtjs/i18n',
