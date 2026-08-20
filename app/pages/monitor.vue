@@ -4,7 +4,9 @@ definePageMeta({
 })
 
 const monitorData = useState<MonitorInfo[]>('monitorData')
-const { t, locale } = useI18n()
+const { t, locale, localeProperties } = useI18n()
+
+const isRtl = computed(() => localeProperties.value.dir === 'rtl')
 
 const timeLocale = computed(() => {
   if (locale.value === 'zh-tw') return 'zh-TW'
@@ -66,8 +68,8 @@ function getChartOption(item: MonitorInfo): ECOption {
     },
     grid: {
       containLabel: true,
-      left: 0,
-      right: 24,
+      left: isRtl.value ? 24 : 0,
+      right: isRtl.value ? 0 : 24,
       top: 8,
       bottom: 8
     },

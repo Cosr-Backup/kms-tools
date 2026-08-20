@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 
-const { locales, t, setLocale } = useI18n()
+const { localeProperties, locales, t, setLocale } = useI18n()
 
 const localePath = useLocalePath()
 
@@ -9,6 +9,7 @@ const path = computed(() => route.path.slice(1).split('/'))
 
 const drawerVisible = ref(false)
 const isDesktop = useMediaQuery('(min-width: 768px)')
+const isRtl = computed(() => localeProperties.value.dir === 'rtl')
 
 watch(
   isDesktop,
@@ -78,7 +79,7 @@ function handleNavClick(name: string) {
       <AMenu
         :selected-keys="path"
         mode="horizontal"
-        class="hidden grow md:flex [&_.arco-menu-overflow-wrap]:text-end [&_.arco-menu-selected-label]:left-4"
+        class="hidden grow md:flex [&_.arco-menu-overflow-wrap]:text-end [&_.arco-menu-selected-label]:start-4"
       >
         <AMenuItem
           v-for="item in navItems"
@@ -152,7 +153,7 @@ function handleNavClick(name: string) {
   <!-- Mobile Drawer -->
   <ADrawer
     v-model:visible="drawerVisible"
-    placement="right"
+    :placement="isRtl ? 'left' : 'right'"
     :width="280"
     :title="t('label.menu')"
     :footer="false"

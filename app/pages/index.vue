@@ -32,7 +32,7 @@ function openBase64Url(urlBase64: string) {
       <div
         class="flex flex-col items-center gap-8 py-4 md:flex-row md:gap-10 md:py-8"
       >
-        <div class="w-full text-center md:w-3/5 md:pl-8 md:text-left lg:pl-16">
+        <div class="w-full text-center md:w-3/5 md:ps-8 md:text-start lg:ps-16">
           <h2
             class="mx-auto mb-4 w-fit bg-linear-to-r from-[#e85349] to-[#f3bb4b] bg-clip-text text-4xl font-bold text-transparent md:mx-0 md:mb-6 md:text-7xl"
           >
@@ -119,7 +119,7 @@ function openBase64Url(urlBase64: string) {
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
         <button
           type="button"
-          class="group flex items-center justify-between rounded-lg border border-(--color-border) p-5 text-left transition-all hover:border-[rgb(var(--primary-6))] hover:shadow-md md:p-6"
+          class="group flex items-center justify-between rounded-lg border border-(--color-border) p-5 text-start transition-all hover:border-[rgb(var(--primary-6))] hover:shadow-md md:p-6"
           @click="openBase64Url('aHR0cHM6Ly9jaGF0Lm1hcmtodWIudG9wLw==')"
         >
           <div>
@@ -139,7 +139,7 @@ function openBase64Url(urlBase64: string) {
         </button>
         <button
           type="button"
-          class="group flex items-center justify-between rounded-lg border border-(--color-border) p-5 text-left transition-all hover:border-[rgb(var(--primary-6))] hover:shadow-md md:p-6"
+          class="group flex items-center justify-between rounded-lg border border-(--color-border) p-5 text-start transition-all hover:border-[rgb(var(--primary-6))] hover:shadow-md md:p-6"
           @click="
             openBase64Url(
               'aHR0cHM6Ly93d3cucmFpbnl1bi5jb20vbW1fP3M9a21zLXRvb2xz'

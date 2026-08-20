@@ -3,12 +3,13 @@ const route = useRoute()
 
 const localePath = useLocalePath()
 
-const { t } = useI18n()
+const { localeProperties, t } = useI18n()
 
 const path = computed(() => route.path.slice(1).split('/'))
 
 const drawerVisible = ref(false)
 const isDesktop = useMediaQuery('(min-width: 768px)')
+const isRtl = computed(() => localeProperties.value.dir === 'rtl')
 
 if (!path.value.at(-1)) {
   navigateTo(localePath('/activate/windows'))
@@ -41,20 +42,23 @@ function handleMenuClick(key: string) {
 </script>
 
 <template>
-  <!-- Mobile: floating left-edge tab -->
+  <!-- Mobile: floating inline-start tab -->
   <template v-if="!isDesktop">
     <div
       v-show="!drawerVisible"
-      class="fixed top-1/3 left-0 z-100 -translate-y-1/2 cursor-pointer rounded-r-lg bg-[rgb(var(--primary-6))] px-1 py-4 text-white shadow-lg md:hidden"
+      class="fixed start-0 top-1/3 z-100 -translate-y-1/2 cursor-pointer rounded-e-lg bg-[rgb(var(--primary-6))] px-1 py-4 text-white shadow-lg md:hidden"
       @click="drawerVisible = true"
     >
-      <Icon name="lucide:chevron-right" class="text-base" />
+      <Icon
+        :name="isRtl ? 'lucide:chevron-left' : 'lucide:chevron-right'"
+        class="text-base"
+      />
     </div>
 
-    <!-- Mobile: left-side drawer -->
+    <!-- Mobile: inline-start drawer -->
     <ADrawer
       v-model:visible="drawerVisible"
-      placement="left"
+      :placement="isRtl ? 'right' : 'left'"
       :width="240"
       :title="t('label.activate')"
       :footer="false"

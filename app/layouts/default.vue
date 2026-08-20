@@ -44,11 +44,15 @@ useSeoMeta({
       </template>
     </Head>
     <Body>
-      <AppHeader />
-      <section class="mx-auto flex w-6xl max-w-full flex-1 gap-4 px-3 md:px-0">
-        <slot></slot>
-      </section>
-      <AppFooter />
+      <AConfigProvider :rtl="head.htmlAttrs.dir === 'rtl'">
+        <AppHeader />
+        <section
+          class="mx-auto flex w-6xl max-w-full flex-1 gap-4 px-3 md:px-0"
+        >
+          <slot></slot>
+        </section>
+        <AppFooter />
+      </AConfigProvider>
     </Body>
   </Html>
 </template>

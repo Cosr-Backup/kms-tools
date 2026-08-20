@@ -120,13 +120,13 @@ const { copy, copied } = useClipboard({
           </ASelect>
         </AFormItem>
         <AFormItem :label="t('label.license')" field="license" required>
-          <AInput v-model="formData.license" disabled />
+          <AInput v-model="formData.license" dir="ltr" disabled />
         </AFormItem>
         <AFormItem :label="t('label.script')" required>
           <ClientOnly fallback-tag="textarea">
-            <ATextarea v-model="content" auto-size />
+            <ATextarea v-model="content" dir="ltr" auto-size />
             <template #fallback>
-              <ATextarea auto-size />
+              <ATextarea dir="ltr" auto-size />
             </template>
           </ClientOnly>
         </AFormItem>

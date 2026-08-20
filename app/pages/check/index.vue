@@ -382,10 +382,10 @@ const handleSubmit = async (data: {
             v-if="parsedOutput.connectionLine"
             class="mt-3 rounded bg-(--color-fill-2) px-3 py-2 font-mono text-xs text-(--color-text-2)"
           >
-            <span class="mr-1 text-(--color-text-3)"
+            <span class="me-1 text-(--color-text-3)"
               >{{ t('pages.check.result.connection-title') }}:</span
             >
-            {{ parsedOutput.connectionLine }}
+            <bdi dir="ltr">{{ parsedOutput.connectionLine }}</bdi>
           </div>
         </ACard>
 
@@ -399,6 +399,7 @@ const handleSubmit = async (data: {
               v-for="(line, index) in parsedOutput.errors"
               :key="`error-${index}`"
               class="font-mono text-xs break-all"
+              dir="ltr"
             >
               {{ line }}
             </div>
@@ -416,7 +417,7 @@ const handleSubmit = async (data: {
                 <div class="mb-1 text-xs text-(--color-text-3)">
                   {{ getRequestLabelI18n(item.label) }}
                 </div>
-                <div class="font-mono text-xs text-(--color-text-1)">
+                <div class="font-mono text-xs text-(--color-text-1)" dir="ltr">
                   {{ item.value }}
                 </div>
               </div>
@@ -439,7 +440,7 @@ const handleSubmit = async (data: {
                 <div class="mb-1 text-xs text-(--color-text-3)">
                   {{ getResponseLabelI18n(item.label) }}
                 </div>
-                <div class="font-mono text-xs text-(--color-text-1)">
+                <div class="font-mono text-xs text-(--color-text-1)" dir="ltr">
                   {{ item.value }}
                 </div>
               </div>
@@ -460,6 +461,7 @@ const handleSubmit = async (data: {
         >
           <pre
             class="max-h-72 overflow-auto rounded bg-(--color-fill-1) p-3 font-mono text-xs leading-5 whitespace-pre text-(--color-text-2)"
+            dir="ltr"
             >{{ rpcText }}</pre>
         </ACard>
 
@@ -471,6 +473,7 @@ const handleSubmit = async (data: {
           >
             <pre
               class="max-h-72 overflow-auto rounded bg-(--color-fill-1) p-3 font-mono text-xs leading-5 whitespace-pre text-(--color-text-2)"
+              dir="ltr"
               >{{ rawOutputText }}</pre>
           </ACollapseItem>
         </ACollapse>
