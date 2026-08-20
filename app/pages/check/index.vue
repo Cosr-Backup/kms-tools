@@ -354,15 +354,17 @@ const handleSubmit = async (data: {
           >
             <div class="flex min-w-0 flex-col gap-1">
               <div class="flex items-center gap-2">
-                <IconCheckCircleFill
+                <Icon
                   v-if="resultInfo.type === 'success'"
+                  name="lucide:circle-check"
                   class="text-lg"
                 />
-                <IconCloseCircleFill
+                <Icon
                   v-else-if="resultInfo.type === 'error'"
+                  name="lucide:circle-x"
                   class="text-lg"
                 />
-                <IconInfoCircleFill v-else class="text-lg" />
+                <Icon v-else name="lucide:info" class="text-lg" />
                 <span class="text-base font-semibold text-(--color-text-1)">
                   {{ statusMeta.title }}
                 </span>

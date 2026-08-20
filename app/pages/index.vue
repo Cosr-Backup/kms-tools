@@ -133,7 +133,7 @@ function openBase64Url(urlBase64: string) {
             </p>
           </div>
           <Icon
-            name="tabler:external-link"
+            name="lucide:external-link"
             class="text-xl text-(--color-text-3) transition-colors group-hover:text-[rgb(var(--primary-6))]"
           />
         </button>
@@ -157,7 +157,7 @@ function openBase64Url(urlBase64: string) {
             </p>
           </div>
           <Icon
-            name="tabler:external-link"
+            name="lucide:external-link"
             class="text-xl text-(--color-text-3) transition-colors group-hover:text-[rgb(var(--primary-6))]"
           />
         </button>

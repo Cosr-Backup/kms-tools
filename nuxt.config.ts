@@ -97,7 +97,7 @@ export default defineNuxtConfig({
       })
     ],
     optimizeDeps: {
-      include: ['@arco-design/web-vue', '@arco-design/web-vue/es/icon']
+      include: ['@arco-design/web-vue']
     }
   },
   runtimeConfig: {
@@ -215,6 +215,9 @@ export default defineNuxtConfig({
     ]
   },
   icon: {
+    clientBundle: {
+      scan: true
+    },
     customCollections: [
       {
         prefix: 'local',

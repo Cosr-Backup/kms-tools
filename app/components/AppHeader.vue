@@ -142,7 +142,7 @@ function handleNavClick(name: string) {
         <!-- Mobile Hamburger -->
         <div class="md:hidden">
           <AButton size="small" type="secondary" @click="drawerVisible = true">
-            <template #icon><IconMenu /></template>
+            <template #icon><Icon name="lucide:menu" /></template>
           </AButton>
         </div>
       </ASpace>

@@ -48,7 +48,7 @@ function handleMenuClick(key: string) {
       class="fixed top-1/3 left-0 z-100 -translate-y-1/2 cursor-pointer rounded-r-lg bg-[rgb(var(--primary-6))] px-1 py-4 text-white shadow-lg md:hidden"
       @click="drawerVisible = true"
     >
-      <IconCaretRight class="text-base" />
+      <Icon name="lucide:chevron-right" class="text-base" />
     </div>
 
     <!-- Mobile: left-side drawer -->
